@@ -1,0 +1,12 @@
+@import "tailwindcss";
+.btn {
+  @apply inline-block px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700;
+}
+
+.input {
+  @apply w-full border rounded-md px-3 py-2 ;
+}
+
+.container {
+  @apply max-w-5xl mx-auto px-4;
+}
