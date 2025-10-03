@@ -1,13 +1,11 @@
+
+// // context/AuthContext.tsx
 // "use client";
 
-// import {
-//   createContext,
-//   useContext,
-//   useEffect,
-//   useState,
-//   ReactNode,
-// } from "react";
+// import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 // import { useRouter } from "next/navigation";
+
+// const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 // interface User {
 //   id: string;
@@ -30,42 +28,50 @@
 //   const [loading, setLoading] = useState(true);
 //   const router = useRouter();
 
+//   // Restore auth state from localStorage on mount
 //   useEffect(() => {
 //     const savedUser = localStorage.getItem("user");
 //     const token = localStorage.getItem("token");
 //     if (savedUser && token) {
-//       setUser(JSON.parse(savedUser));
+//       setUser(JSON.parse(savedUser) as User);
 //     }
 //     setLoading(false);
 //   }, []);
 
+//   // Login function
 //   const login = async (email: string, password: string) => {
 //     setLoading(true);
 //     try {
-//       const res = await fetch("http://localhost:4000/api/auth/login", {
+//       const res = await fetch(`${API_URL}/api/auth/login`, {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify({ email, password }),
 //       });
 
+//       const data: { accessToken: string; user: User; message?: string } =
+//         await res.json();
+
 //       if (!res.ok) {
-//         const data = await res.json();
 //         throw new Error(data.message || "Login failed");
 //       }
 
-//       const data = await res.json();
 //       localStorage.setItem("token", data.accessToken);
 //       localStorage.setItem("user", JSON.stringify(data.user));
 //       setUser(data.user);
+
 //       router.push("/dashboard");
-//     } catch (err: any) {
-//       alert(err.message);
+//     } catch (err) {
+//       // Type-safe error handling
+//       const message =
+//         err instanceof Error ? err.message : "An unexpected error occurred";
+//       alert(message);
 //       throw err;
 //     } finally {
 //       setLoading(false);
 //     }
 //   };
 
+//   // Logout function
 //   const logout = () => {
 //     localStorage.removeItem("token");
 //     localStorage.removeItem("user");
@@ -94,17 +100,12 @@
 
 
 
-
+// context/AuthContext.tsx
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { getUser, getAccessToken, setAccessToken as saveAccessToken, setUser as saveUser } from "../lib/auth";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
@@ -125,21 +126,24 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUserState] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Restore auth state from localStorage on mount
   useEffect(() => {
-    const savedUser = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    if (savedUser && token) {
-      setUser(JSON.parse(savedUser));
-    }
+    const u = getUser();
+    const token = getAccessToken();
+    if (u && token) setUserState(u);
     setLoading(false);
+
+    const onUserChanged = () => {
+      const u2 = getUser();
+      setUserState(u2);
+    };
+    window.addEventListener("userChanged", onUserChanged);
+    return () => window.removeEventListener("userChanged", onUserChanged);
   }, []);
 
-  // Login function
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
@@ -151,29 +155,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.message || "Login failed");
-      }
+      if (!res.ok) throw new Error(data.message || "Login failed");
 
-      // Save token & user
-      localStorage.setItem("token", data.accessToken);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      // expect { accessToken, user }
+      saveAccessToken(data.accessToken);
+      saveUser(data.user);
+      setUserState(data.user);
 
-      setUser(data.user);
       router.push("/dashboard");
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "An unexpected error occurred";
+      // keep simple alert or use toast
+      alert(message);
       throw err;
     } finally {
       setLoading(false);
     }
   };
 
-  // Logout function
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
-    setUser(null);
+    setUserState(null);
     router.push("/login");
   };
 
@@ -184,7 +187,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Hook for accessing AuthContext
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) throw new Error("useAuth must be used within AuthProvider");

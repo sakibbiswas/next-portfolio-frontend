@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
               { href: "#about", label: "About" },
               { href: "/projects", label: "Projects" },
               { href: "/blogs", label: "Blogs" },
-              { href: "#testimonial", label: "Testimonials" },
+            
               { href: "#contact", label: "Contact" },
               
             ].map((link, idx) => (
