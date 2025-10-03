@@ -1,5 +1,3 @@
-
-
 // src/store/authSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { apiFetch } from "../lib/api";
