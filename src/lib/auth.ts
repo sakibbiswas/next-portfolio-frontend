@@ -51,17 +51,6 @@
 // export const isLoggedIn = (): boolean => !!getAccessToken();
 
 
-
-
-
-
-
-
-
-
-
-
-
 // lib/auth.ts
 import { User } from "../types/user";
 
