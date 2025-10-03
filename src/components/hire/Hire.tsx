@@ -1,4 +1,4 @@
-"use client"; // for client-side interactivity
+"use client"; 
 import React from "react";
 
 const Hire: React.FC = () => {
