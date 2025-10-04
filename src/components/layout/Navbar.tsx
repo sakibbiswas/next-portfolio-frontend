@@ -14,6 +14,7 @@ import {
   HiX,
   HiUserCircle,
   HiLogout,
+ HiUser,
 } from "react-icons/hi";
 
 // Define User type
@@ -27,6 +28,7 @@ interface User {
 
 const links = [
   { name: "Home", href: "/", icon: <HiHome className="w-5 h-5" /> },
+  { name: "About", href: "/#about", icon: <HiUser className="w-5 h-5" /> },
   { name: "Projects", href: "/projects", icon: <HiFolder className="w-5 h-5" /> },
   { name: "Blogs", href: "/blogs", icon: <HiBookOpen className="w-5 h-5" /> },
 ];
