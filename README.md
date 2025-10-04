@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 Portfolio Website Frontend
 
-## Getting Started
+`This is the frontend for my personal portfolio website, built with Next.js, TypeScript, and Tailwind CSS.`
+`It provides public pages for blogs, projects, and about section, as well as a secure dashboard for the portfolio owner.`
 
-First, run the development server:
+## 🚀 Features
+### 🌍 Public Pages (Accessible to All Visitors)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+`Landing Page (Home) – Quick introduction and navigation.`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`About Me Section – Personal details, skills, and experience.`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`Projects Showcase – List of personal projects with live/demo links.`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Blog Pages
 
-## Learn More
+`All Blogs page using ISR (Incremental Static Regeneration).`
 
-To learn more about Next.js, take a look at the following resources:
+`Single Blog pages with ISR + getStaticPaths + revalidate.`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🔑 Private Pages (Owner Only)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* Authentication
 
-## Deploy on Vercel
+* * JWT-based login system.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* * Secure storage of tokens in browser (localStorage/cookies).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* * Dashboard (Owner-only access)
+
+* * Manage blogs (Create, Edit, Delete).
+
+* * Manage projects (Create, Edit, Delete).
+
+* * View content dynamically.
+
+#### ✨ Bonus Enhancements
+
+* * Rich Text Editor (React Quill) for blogs/projects.
+
+* * Polished UI/UX – interactive cards, animations, skeleton loaders.
+
+* * Toast Notifications with react-hot-toast.
+
+* * Error Handling – proper validation, clear error messages, and feedback for success/failure.
+
+### 🛠️ Tech Stack
+
+* * Framework: Next.js 13+ (App Router)
+
+* * Language: TypeScript
+
+* * Styling: Tailwind CSS
+
+* * State Management: Redux Toolkit (or Zustand)
+
+* * Notifications: react-hot-toast
+
+* * API Integration: REST APIs from Express + Prisma backend
+
+#### 📡 Pages & Routes
+* Public Pages
+
+`/ → Landing/Home`
+
+`/about → About Me`
+
+`/projects → Project Showcase`
+
+`/blogs → All Blogs (ISR)`
+
+`/blogs/[id] → Single Blog (ISR)`
+
+`Private (Owner Only)`
+
+`/login → Owner login`
+
+`/dashboard → Dashboard home`
+
+`/dashboard/blogs → Manage blogs`
+
+`/dashboard/projects → Manage projects`
+
+#### ✅ Error Handling & Validation
+
+* * Form validation with proper error messages (e.g., invalid email, required fields).
+
+* * Unauthorized requests redirect to login.
+
+* * Success/error feedback via react-hot-toast.
+
+* * 404 handled with custom not-found.tsx.
+
+### 🏃‍♂️ Getting Started
+#### 1️⃣ Clone Repository
+`git clone` [https://github.com/sakibbiswas/next-portfolio-frontend]
+`cd portfolio-frontend`
+
+#### 🧩 Author
+
+##### Sazzadur Rahman Sakib
+###### Fullsatack Developer
+📧 [sakibsakib99880@gmail.com]
+🌐 [https://next-portfolio-frontend-gold.vercel.app]

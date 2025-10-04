@@ -6,7 +6,7 @@ import Education from "@/components/education/Education";
 import Expertise from "@/components/expertise/Expertise";
 import Hire from "@/components/hire/Hire";
 import Skills from "@/components/skils/Skils";
-import Testimonial from "@/components/testimonial/Testimonial";
+
 import Link from "next/link";
 
 export default function Home() {
@@ -44,7 +44,7 @@ export default function Home() {
   </div>
 
 
- <Testimonial />
+
   <Hire />
 
 {/* Full-width Latest Blog Section */}
