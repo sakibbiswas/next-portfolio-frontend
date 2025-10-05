@@ -45,7 +45,7 @@ export default function Home() {
 
 
 
-  <Hire />
+  
 
 {/* Full-width Latest Blog Section */}
       <div className="w-full bg-gradient-to-r from-pink-200 via-red-200 to-yellow-200 py-20">
@@ -64,7 +64,7 @@ export default function Home() {
           </Link>
         </div>
       </div>
-
+<Hire />
   <Contact />
 </section>
 

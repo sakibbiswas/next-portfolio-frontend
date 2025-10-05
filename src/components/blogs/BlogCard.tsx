@@ -6,53 +6,72 @@ import { Blog } from "../../types/blog";
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const excerpt =
     blog.excerpt ||
-    (blog.content.length > 150 ? blog.content.slice(0, 150) + "..." : blog.content);
+    (blog.content.length > 150
+      ? blog.content.slice(0, 150) + "..."
+      : blog.content);
 
-  // Only use valid URLs
-  const thumbnailUrl = blog.thumbnail && blog.thumbnail.startsWith("http")
-    ? blog.thumbnail
-    : undefined;
+  // Thumbnail URL check
+  const thumbnailUrl =
+    blog.thumbnail && blog.thumbnail.startsWith("http")
+      ? blog.thumbnail
+      : undefined;
 
   return (
-    <article className="relative bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 p-6 rounded-2xl shadow-lg flex flex-col transform hover:-translate-y-1 hover:shadow-2xl transition-all overflow-hidden">
-      {/* Floating shapes */}
-      <div className="absolute -top-6 -left-6 w-20 h-20 bg-pink-300 rounded-full opacity-25 animate-bounce" />
-      <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-blue-300 rounded-full opacity-25 animate-pulse" />
-
+    <article
+      className="relative bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl 
+      transition-all duration-300 overflow-hidden flex flex-col w-full max-w-sm h-[450px]"
+    >
       {/* Thumbnail */}
       {thumbnailUrl && (
-        <div className="w-full h-56 relative mb-5 z-10 shadow-md rounded-xl overflow-hidden">
+        <div className="relative w-full h-48">
           <Image
             src={thumbnailUrl}
             alt={blog.title}
             fill
             className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 768px) 100vw,
+                   (max-width: 1200px) 50vw,
+                   33vw"
           />
         </div>
       )}
 
-      <h3 className="text-2xl font-bold text-purple-700 mb-2 relative z-10 line-clamp-2">
-        <Link href={`/blogs/${blog.id}`} className="hover:text-purple-900 transition-colors">
-          {blog.title}
-        </Link>
-      </h3>
+      {/* Content */}
+      <div className="flex flex-col flex-grow p-5">
+        {/* Title */}
+        <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
+          <Link
+            href={`/blogs/${blog.id}`}
+            className="hover:text-indigo-600 transition-colors duration-200"
+          >
+            {blog.title}
+          </Link>
+        </h3>
 
-      <p className="text-base text-gray-700 leading-relaxed relative z-10 line-clamp-3">
-        {excerpt}
-      </p>
+        {/* Excerpt */}
+        <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
+          {excerpt}
+        </p>
 
-      <div className="mt-3 text-sm text-gray-500 relative z-10">
-        📅 Published: <span className="font-medium">{new Date(blog.createdAt).toLocaleDateString()}</span>
-      </div>
+        {/* Publish date */}
+        <div className="mt-3 text-xs text-gray-500">
+          📅{" "}
+          <span className="font-medium">
+            {new Date(blog.createdAt).toLocaleDateString()}
+          </span>
+        </div>
 
-      <div className="mt-auto pt-5 flex justify-end relative z-10">
-        <Link
-          href={`/blogs/${blog.id}`}
-          className="px-5 py-2 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 shadow-md hover:scale-105 transition-transform"
-        >
-          View Details
-        </Link>
+        {/* Button */}
+        <div className="mt-auto pt-4 flex justify-end">
+          <Link
+            href={`/blogs/${blog.id}`}
+            className="px-4 py-2 rounded-lg text-sm font-semibold text-white 
+            bg-gradient-to-r from-indigo-500 to-purple-500 hover:scale-105 
+            transition-transform duration-200"
+          >
+            View Details
+          </Link>
+        </div>
       </div>
     </article>
   );
